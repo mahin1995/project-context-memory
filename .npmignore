@@ -1,0 +1,8 @@
+coverage
+node_modules
+src
+test
+eslint.config.js
+tsconfig.json
+tsup.config.ts
+vitest.config.ts

@@ -1,0 +1,75 @@
+{
+  "name": "@mahin1995/project-context-memory",
+  "version": "0.1.0",
+  "description": "Long-term project memory for AI agents backed by PostgreSQL and pgvector.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf coverage dist",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "keywords": [
+    "ai",
+    "agent-memory",
+    "langgraph",
+    "memory",
+    "pgvector",
+    "postgresql",
+    "rag",
+    "typescript"
+  ],
+  "author": "Mahin1995",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/project-context-memory.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.12.0",
+    "pgvector": "^0.2.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "^9.16.0",
+    "globals": "^15.12.0",
+    "prettier": "^3.4.1",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
