@@ -3,7 +3,7 @@ import {
   ProjectContextMemory,
   retrieveRelevantMemories,
   saveInteractionAsMemory
-} from "@mahin1995/project-context-memory";
+} from "@mahin14m/project-context-memory";
 
 class DemoEmbeddingProvider extends BaseEmbeddingProvider {
   constructor() {

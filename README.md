@@ -1,4 +1,4 @@
-# @mahin1995/project-context-memory
+# @mahin14m/project-context-memory
 
 Long-term project memory for AI agents with PostgreSQL as the source of truth and pgvector for semantic retrieval.
 
@@ -7,7 +7,7 @@ The package is library-first. Summaries are the main retrieval unit. Raw prompt,
 ## Installation
 
 ```bash
-npm install @mahin1995/project-context-memory
+npm install @mahin14m/project-context-memory
 ```
 
 ## Quick Start
@@ -16,7 +16,7 @@ npm install @mahin1995/project-context-memory
 import {
   BaseEmbeddingProvider,
   ProjectContextMemory
-} from "@mahin1995/project-context-memory";
+} from "@mahin14m/project-context-memory";
 
 class DemoEmbeddingProvider extends BaseEmbeddingProvider {
   constructor() {
@@ -128,7 +128,7 @@ Primary methods:
 Extend `BaseEmbeddingProvider` to plug in your own embedding backend.
 
 ```ts
-import { BaseEmbeddingProvider } from "@mahin1995/project-context-memory";
+import { BaseEmbeddingProvider } from "@mahin14m/project-context-memory";
 
 class MyEmbeddingProvider extends BaseEmbeddingProvider {
   constructor() {
@@ -229,7 +229,7 @@ import {
   ProjectContextMemory,
   retrieveRelevantMemories,
   saveInteractionAsMemory
-} from "@mahin1995/project-context-memory";
+} from "@mahin14m/project-context-memory";
 
 async function retrieveMemoryNode(state: {
   question: string;
@@ -277,6 +277,7 @@ async function persistInteractionNode(state: {
 Consumer-facing examples live in [`examples/`](./examples):
 
 - `basic-store-search.ts`
+- `codex-agent-starter/`
 - `custom-embedding-provider.ts`
 - `langgraph-integration.ts`
 - `project-scoped-retrieval.ts`
@@ -307,3 +308,6 @@ Check that the tarball only contains built output plus `README.md` and `LICENSE`
 ## License
 
 MIT
+
+
+

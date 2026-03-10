@@ -1,7 +1,7 @@
 import {
   BaseEmbeddingProvider,
   ProjectContextMemory
-} from "@mahin1995/project-context-memory";
+} from "@mahin14m/project-context-memory";
 
 interface EmbeddingApiResponse {
   embeddings: number[][];

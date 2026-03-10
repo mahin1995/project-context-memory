@@ -5,7 +5,7 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@mahin1995/project-context-memory": ["./src/index.ts"]
+      "@mahin14m/project-context-memory": ["./src/index.ts"]
     },
     "lib": ["ES2022"],
     "rootDir": ".",

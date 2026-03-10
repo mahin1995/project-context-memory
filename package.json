@@ -1,5 +1,5 @@
 {
-  "name": "@mahin1995/project-context-memory",
+  "name": "@mahin14m/project-context-memory",
   "version": "0.1.0",
   "description": "Long-term project memory for AI agents backed by PostgreSQL and pgvector.",
   "type": "module",
@@ -47,7 +47,7 @@
     "rag",
     "typescript"
   ],
-  "author": "Mahin1995",
+  "author": "mahin14m",
   "repository": {
     "type": "git",
     "url": "https://github.com/your-org/project-context-memory.git"
