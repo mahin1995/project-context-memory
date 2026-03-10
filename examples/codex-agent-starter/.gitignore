@@ -1,2 +1,5 @@
 /node-module
 node-module
+
+.env
+/.env

@@ -10,7 +10,19 @@ This is a small consumer project that shows how to use `@mahin14m/project-contex
 
 ## Setup
 
-1. Copy `.env.example` values into your shell environment.
+1. Copy `.env.example` to `.env`:
+
+```bash
+copy .env.example .env
+```
+
+Or on macOS/Linux:
+
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` with your real PostgreSQL connection string.
 2. Install dependencies:
 
 ```bash
@@ -26,6 +38,8 @@ Recall relevant context before prompting Codex:
 ```bash
 npm run recall -- "How did we validate subscription renewals before invoicing?"
 ```
+
+If you run `npm run recall` without a query, the script will ask you to pass one after `--`.
 
 Store a new memory after Codex completes a task:
 

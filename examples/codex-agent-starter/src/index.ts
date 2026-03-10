@@ -1,13 +1,51 @@
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { ProjectContextMemory } from "@mahin14m/project-context-memory";
 import { DemoEmbeddingProvider } from "./demo-embedding-provider";
 
 type Command = "demo" | "recall" | "remember";
 
+function loadDotEnv(): void {
+  const currentFilePath = fileURLToPath(import.meta.url);
+  const exampleRoot = resolve(dirname(currentFilePath), "..");
+  const envPath = resolve(exampleRoot, ".env");
+
+  if (!existsSync(envPath)) {
+    return;
+  }
+
+  const envContent = readFileSync(envPath, "utf8");
+
+  for (const line of envContent.split(/\r?\n/u)) {
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    const separatorIndex = trimmed.indexOf("=");
+
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = trimmed.slice(0, separatorIndex).trim();
+    const value = trimmed.slice(separatorIndex + 1).trim();
+
+    if (key && !(key in process.env)) {
+      process.env[key] = value;
+    }
+  }
+}
+
 function getRequiredEnv(name: string): string {
   const value = process.env[name];
 
   if (!value) {
-    throw new Error(`Set ${name} before running this example project.`);
+    throw new Error(
+      `Set ${name} before running this example project. You can copy .env.example to .env in examples/codex-agent-starter.`
+    );
   }
 
   return value;
@@ -125,6 +163,7 @@ async function runDemo(memory: ProjectContextMemory): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  loadDotEnv();
   const memory = await createMemory();
 
   try {
