@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "project-memory": {
-      "command": "npm.cmd",
-      "args": ["run", "mcp"],
+      "command": "node",
+      "args": ["dist/mcp-server.js"],
       "cwd": "D:/code/node/project-context-memory/examples/codex-agent-starter"
     }
   }

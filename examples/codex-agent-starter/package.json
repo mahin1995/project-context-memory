@@ -7,7 +7,7 @@
     "recall": "tsx src/index.ts recall",
     "remember": "tsx src/index.ts remember",
     "demo": "tsx src/index.ts demo",
-    "build:mcp": "tsc -p tsconfig.mcp.json",
+    "build:mcp": "node ./node_modules/esbuild/bin/esbuild src/mcp-server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/mcp-server.js",
     "mcp": "tsx src/mcp-server.ts",
     "mcp:smoke": "tsx src/mcp-smoke-test.ts"
   },
