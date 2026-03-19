@@ -21,6 +21,7 @@ export {
   retrieveRelevantMemories,
   saveInteractionAsMemory
 } from "./integrations/langgraph";
+export { runMemoryBackedTurn } from "./integrations/mcp";
 export type { EmbeddingProvider } from "./embeddings/provider";
 export type {
   LangGraphMemoryState,
@@ -28,6 +29,14 @@ export type {
   MemorySearchClient,
   MemoryStoreClient
 } from "./integrations/langgraph";
+export type {
+  GenerateWithMemoryInput,
+  GenerateWithMemoryOutput,
+  MemoryEngineClient,
+  RunMemoryBackedTurnInput,
+  RunMemoryBackedTurnOptions,
+  RunMemoryBackedTurnResult
+} from "./integrations/mcp";
 export type {
   CaptureConversationInput,
   CaptureConversationResult,

@@ -272,6 +272,57 @@ async function persistInteractionNode(state: {
 }
 ```
 
+## MCP Middleware Helper
+
+If you are building an MCP server, you can run retrieval, prompt injection, generation, and persistence in one call.
+
+```ts
+import {
+  ProjectContextMemory,
+  runMemoryBackedTurn
+} from "@mahin14m/project-context-memory";
+
+async function askWithMemory(memory: ProjectContextMemory, input: {
+  projectName: string;
+  featureName: string;
+  threadId: string;
+  question: string;
+}) {
+  return runMemoryBackedTurn(
+    memory,
+    {
+      query: input.question,
+      projectName: input.projectName,
+      featureName: input.featureName,
+      taskType: "analysis",
+      sourceThreadId: input.threadId,
+      tags: ["mcp", "assistant-turn"]
+    },
+    {
+      generate: async ({ prompt, memories }) => {
+        const response = memories.length > 0
+          ? "Answered with prior context."
+          : "Answered without prior context.";
+
+        return {
+          response,
+          summary: `Answered: ${input.question}`,
+          analysis: `Prompt length=${prompt.length}`
+        };
+      }
+    }
+  );
+}
+```
+
+`runMemoryBackedTurn` returns:
+
+- `prompt` (what was sent to your model)
+- `memoryContext` (formatted retrieval context)
+- `memories` (raw retrieval rows)
+- `generated` (your model output)
+- `writeResult` (stored memory entry and optional raw log)
+
 ## Examples
 
 Consumer-facing examples live in [`examples/`](./examples):
@@ -280,6 +331,7 @@ Consumer-facing examples live in [`examples/`](./examples):
 - `codex-agent-starter/`
 - `custom-embedding-provider.ts`
 - `langgraph-integration.ts`
+- `mcp-memory-middleware.ts`
 - `project-scoped-retrieval.ts`
 - `store-with-raw-logs.ts`
 

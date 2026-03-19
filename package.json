@@ -1,6 +1,6 @@
 {
   "name": "@mahin14m/project-context-memory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Long-term project memory for AI agents backed by PostgreSQL and pgvector.",
   "type": "module",
   "main": "./dist/index.js",
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
     "@types/node": "^22.9.0",
     "@types/pg": "^8.11.10",
     "@typescript-eslint/eslint-plugin": "^8.18.1",

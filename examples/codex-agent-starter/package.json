@@ -6,10 +6,13 @@
   "scripts": {
     "recall": "tsx src/index.ts recall",
     "remember": "tsx src/index.ts remember",
-    "demo": "tsx src/index.ts demo"
+    "demo": "tsx src/index.ts demo",
+    "mcp": "tsx src/mcp-server.ts",
+    "mcp:smoke": "tsx src/mcp-smoke-test.ts"
   },
   "dependencies": {
-    "@mahin14m/project-context-memory": "file:../.."
+    "@mahin14m/project-context-memory": "file:../..",
+    "@modelcontextprotocol/sdk": "^1.18.2"
   },
   "devDependencies": {
     "tsx": "^4.20.5",
