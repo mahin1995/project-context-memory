@@ -110,3 +110,18 @@ After publishing `@mahin14m/project-context-memory`, replace the local dependenc
   }
 }
 ```
+
+
+## mcp server add
+```json
+{
+  "mcpServers": {
+    "project-memory": {
+      "command": "npm.cmd",
+      "args": ["run", "mcp"],
+      "cwd": "D:/code/node/project-context-memory/examples/codex-agent-starter"
+    }
+  }
+}
+
+```

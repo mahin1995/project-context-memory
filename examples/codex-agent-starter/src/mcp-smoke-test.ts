@@ -129,6 +129,38 @@ async function main(): Promise<void> {
 
     console.log("\nask_with_memory output:\n");
     console.log(getTextBlocks(askResult));
+
+    const storeResult = await client.callTool({
+      name: "store_conversation",
+      arguments: {
+        conversation: [
+          {
+            role: "user",
+            content: "How should we handle subscription renewals?"
+          },
+          {
+            role: "assistant",
+            content: "We should validate the trial expiration before creating an invoice."
+          },
+          {
+            role: "user",
+            content: "What if validation fails?"
+          },
+          {
+            role: "assistant",
+            content: "Return an error and do not proceed with invoice creation."
+          }
+        ],
+        projectName,
+        featureName,
+        threadId,
+        conversationTitle: "Subscription Renewal Discussion",
+        tags: ["renewal", "validation", "invoice"]
+      }
+    });
+
+    console.log("\nstore_conversation output:\n");
+    console.log(getTextBlocks(storeResult));
   } finally {
     await transport.close();
   }

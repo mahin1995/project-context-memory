@@ -273,6 +273,74 @@ async function main(): Promise<void> {
     }
   );
 
+  server.registerTool(
+    "store_conversation",
+    {
+      description: "Store an entire conversation or chat history as project memory entries.",
+      inputSchema: {
+        conversation: z.array(
+          z.object({
+            role: z.enum(["user", "assistant"]),
+            content: z.string().trim().min(1)
+          })
+        ).min(1),
+        projectName: z.string().trim().min(1).optional(),
+        featureName: z.string().trim().min(1).optional(),
+        threadId: z.string().trim().min(1).optional(),
+        taskType: z.string().trim().min(1).optional(),
+        tags: z.array(z.string().trim().min(1)).max(25).optional(),
+        conversationTitle: z.string().trim().min(1).optional()
+      }
+    },
+    async ({ conversation, projectName, featureName, threadId, taskType, tags, conversationTitle }) => {
+      const projectName_ = projectName ?? process.env.PROJECT_NAME ?? "default-project";
+      const featureName_ = featureName ?? process.env.FEATURE_NAME ?? "general";
+      const taskType_ = taskType ?? "conversation";
+
+      // Build a summary of the conversation
+      const userMessages = conversation.filter((msg) => msg.role === "user");
+      const assistantMessages = conversation.filter((msg) => msg.role === "assistant");
+
+      const summary =
+        conversationTitle ||
+        `Conversation with ${userMessages.length} questions and ${assistantMessages.length} answers`;
+
+      // Store conversation as a memory entry
+      const result = await memory.store({
+        projectName: projectName_,
+        featureName: featureName_,
+        taskType: taskType_,
+        summary,
+        prompt: conversation
+          .map((msg) => `${msg.role.toUpperCase()}: ${msg.content}`)
+          .join("\n\n"),
+        response: summary,
+        sourceThreadId: threadId,
+        tags: tags ?? ["conversation"]
+      });
+
+      // const storedIds = result.entry.id ? [result.entry.id] : [];
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: [
+              `✓ Stored conversation as memory entry`,
+              `Entry ID: ${result.entry.id}`,
+              `Project: ${projectName_}`,
+              `Feature: ${featureName_}`,
+              `Messages: ${userMessages.length} user, ${assistantMessages.length} assistant`,
+              `Summary: ${summary}`,
+              "",
+              "This conversation is now searchable via ask_with_memory and search_project_memory tools."
+            ].join("\n")
+          }
+        ]
+      };
+    }
+  );
+
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
