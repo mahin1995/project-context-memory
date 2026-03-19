@@ -1,6 +1,6 @@
 {
   "name": "@mahin14m/project-context-memory",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Long-term project memory for AI agents backed by PostgreSQL and pgvector.",
   "type": "module",
   "main": "./dist/index.js",
