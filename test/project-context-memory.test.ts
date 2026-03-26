@@ -42,6 +42,7 @@ describe("ProjectContextMemory", () => {
       rawLog: null
     });
     const searchSpy = vi.spyOn(MemoryRetriever.prototype, "search").mockResolvedValue([]);
+    const getByIdSpy = vi.spyOn(PostgresMemoryStore.prototype, "getMemoryEntryById").mockResolvedValue(null);
     const closeSpy = vi.spyOn(PostgresMemoryStore.prototype, "close").mockResolvedValue(undefined);
     const memory = new ProjectContextMemory({
       postgresUrl: "postgres://user:pass@localhost:5432/app",
@@ -57,12 +58,27 @@ describe("ProjectContextMemory", () => {
     await memory.search({
       query: "How did we handle renewal validation?"
     });
+    await memory.getById("entry-1");
     await memory.close();
 
     expect(setupSpy).toHaveBeenCalledTimes(1);
     expect(writerSpy).toHaveBeenCalledTimes(1);
     expect(searchSpy).toHaveBeenCalledTimes(1);
+    expect(getByIdSpy).toHaveBeenCalledTimes(1);
     expect(closeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("throws for an empty memory id lookup", async () => {
+    const setupSpy = vi.spyOn(PostgresMemoryStore.prototype, "setup").mockResolvedValue(undefined);
+    const getByIdSpy = vi.spyOn(PostgresMemoryStore.prototype, "getMemoryEntryById").mockResolvedValue(null);
+    const memory = new ProjectContextMemory({
+      postgresUrl: "postgres://user:pass@localhost:5432/app",
+      embeddingProvider: new DemoEmbeddingProvider()
+    });
+
+    await expect(memory.getById("   ")).rejects.toThrow("A memory entry id is required.");
+    expect(setupSpy).not.toHaveBeenCalled();
+    expect(getByIdSpy).not.toHaveBeenCalled();
   });
 
   it("resolves default embedding dimensions from the provider model", () => {
@@ -74,3 +90,5 @@ describe("ProjectContextMemory", () => {
     expect(memory).toBeInstanceOf(ProjectContextMemory);
   });
 });
+
+

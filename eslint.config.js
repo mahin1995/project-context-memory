@@ -9,7 +9,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
-    ignores: ["coverage", "dist", "node_modules"]
+    ignores: [
+      "coverage",
+      "dist",
+      "node_modules",
+      "**/coverage/**",
+      "**/dist/**",
+      "**/node_modules/**"
+    ]
   },
   js.configs.recommended,
   {

@@ -350,9 +350,25 @@ export class PostgresMemoryStore {
     return result.rows.map(mapMemorySearchResult);
   }
 
+  async getMemoryEntryById(id: string): Promise<MemoryEntryRecord | null> {
+    const result = await this.db.query<MemoryEntryRow>(
+      `
+      SELECT *
+      FROM ${this.memoryEntriesTable}
+      WHERE id = $1
+      LIMIT 1
+      `,
+      [id]
+    );
+    const row = result.rows[0];
+
+    return row ? mapMemoryEntry(row) : null;
+  }
+
   async close(): Promise<void> {
     await this.db.close();
   }
 }
 
 export { PostgresMemoryStore as PostgresProjectContextStore };
+

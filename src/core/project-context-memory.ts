@@ -5,6 +5,7 @@ import { PostgresMemoryStore } from "../db/postgres-project-context-store";
 import type {
   CaptureConversationInput,
   CaptureConversationResult,
+  MemoryEntryRecord,
   MemoryRecord,
   MemorySearchInput,
   MemorySearchResult,
@@ -195,6 +196,17 @@ export class ProjectContextMemory {
     return this.retriever.search(input);
   }
 
+  async getById(id: string): Promise<MemoryEntryRecord | null> {
+    const normalizedId = normalizeOptionalText(id);
+
+    if (!normalizedId) {
+      throw new ConfigurationError("A memory entry id is required.");
+    }
+
+    await this.ensureInitialized();
+    return this.memoryStore.getMemoryEntryById(normalizedId);
+  }
+
   /** @deprecated Use store() instead. */
   async remember(input: RememberInput): Promise<MemoryRecord[]> {
     const result = await this.store({
@@ -334,3 +346,5 @@ export async function createProjectContextMemory(
   const memory = new ProjectContextMemory(options);
   return memory.setup();
 }
+
+

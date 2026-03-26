@@ -114,6 +114,57 @@ describe("PostgresMemoryStore search", () => {
     expect(sql).toContain("ORDER BY score DESC, semantic_score DESC, updated_at DESC");
   });
 
+  it("returns an exact memory entry by id", async () => {
+    mocks.query.mockResolvedValue({
+      rows: [
+        {
+          id: "entry-42",
+          project_name: "billing-system",
+          feature_name: "subscription-renewal",
+          task_type: "analysis",
+          summary: "Renewal flow validates trial expiration before invoice generation.",
+          decision: "Validate before invoice creation.",
+          outcome: "Prevents invalid renewals.",
+          tags: ["billing", "renewal"],
+          file_paths: ["src/billing/renewal.ts"],
+          source_thread_id: "thread-1",
+          created_at: new Date("2026-03-09T00:00:00.000Z"),
+          updated_at: new Date("2026-03-10T00:00:00.000Z")
+        }
+      ]
+    });
+
+    const store = new PostgresMemoryStore({
+      postgresUrl: "postgres://user:pass@localhost:5432/app",
+      embeddingProvider: {
+        embedDocuments: vi.fn(),
+        embedQuery: vi.fn()
+      },
+      embeddingDimensions: 3
+    });
+
+    const result = await store.getMemoryEntryById("entry-42");
+
+    expect(result).toEqual({
+      id: "entry-42",
+      projectName: "billing-system",
+      featureName: "subscription-renewal",
+      taskType: "analysis",
+      summary: "Renewal flow validates trial expiration before invoice generation.",
+      decision: "Validate before invoice creation.",
+      outcome: "Prevents invalid renewals.",
+      tags: ["billing", "renewal"],
+      filePaths: ["src/billing/renewal.ts"],
+      sourceThreadId: "thread-1",
+      createdAt: "2026-03-09T00:00:00.000Z",
+      updatedAt: "2026-03-10T00:00:00.000Z"
+    });
+    expect(mocks.query).toHaveBeenCalledWith(
+      expect.stringContaining("WHERE id = $1"),
+      ["entry-42"]
+    );
+  });
+
   it("builds the hybrid search query with fixed ranking weights", () => {
     const sql = buildHybridSearchQuery("\"public\".\"memory_entries\"");
 
@@ -124,3 +175,5 @@ describe("PostgresMemoryStore search", () => {
     expect(sql).toContain("\"public\".\"memory_entries\"");
   });
 });
+
+
